@@ -23,9 +23,9 @@ class Solution(object):
         func_list=[i for i in self.__dir__() if 'func' in i]
 
         for func in func_list:
-            tic=time.time()
+            tic=time.clock()
             print(getattr(self,func)(*args,**kwargs))
-            toc=time.time()
+            toc=time.clock()
             print('%s time:%s ms'%(func,toc-tic))
 
 if __name__ == '__main__':
