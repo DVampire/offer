@@ -70,19 +70,41 @@ class Solution(object):
 
         return nums
 
+    def func4(self, *args, **kwargs):
+        '''
+        思路四：希尔排序（shellSort）
+        工作原理：希尔排序(Shell Sort)是插入排序的一种。
+        也称缩小增量排序，是直接插入排序算法的一种更高效的改进版本,
+        该方法的基本思想是：先将整个待排元素序列分割成若干个子序列
+        （由相隔某个“增量”的元素组成的）分别进行直接插入排序，
+        然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，
+        再对全体元素进行一次直接插入排序。因为直接插入排序在元素基本有序的情况下（接近最好情况），
+        效率是很高的，因此希尔排序在时间效率比直接插入排序有较大提高。
+        平均时间复杂度：O(nlogn)
+        最好情况：O(n^1.3)
+        最坏情况：O(n^2)
+        空间复杂度：O(1)
+        稳定性：不稳定
+        '''
+        nums = args[0]
+        step = len(nums)//2
+        while step > 0:
+            for i in range(step, len(nums)):
+                # 类似插入排序, 当前值与指定步长之前的值比较, 符合条件则交换位置
+                while i >= step and nums[i-step] > nums[i]:
+                    nums[i], nums[i-step] = nums[i-step], nums[i]
+                    i -= step
+            step = step//2
+        return nums
+
     def main(self, *args, **kwargs):
-        tic=time.time()
-        print(self.func1(*args, **kwargs))
-        toc=time.time()
-        print('func 1 time:%s ms'%(toc-tic))
-        tic = time.time()
-        print(self.func2(*args, **kwargs))
-        toc = time.time()
-        print('func 2 time:%s ms' % (toc - tic))
-        tic = time.time()
-        print(self.func3(*args, **kwargs))
-        toc = time.time()
-        print('func 3 time:%s ms' % (toc - tic))
+        func_list=[i for i in self.__dir__() if 'func' in i]
+
+        for func in func_list:
+            tic=time.time()
+            print(getattr(self,func)(*args,**kwargs))
+            toc=time.time()
+            print('%s time:%s ms'%(func,toc-tic))
 
 if __name__ == '__main__':
     nums=[4,6,3,1,5,8,7,9,0,2]

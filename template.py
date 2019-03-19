@@ -20,14 +20,13 @@ class Solution(object):
         pass
 
     def main(self, *args, **kwargs):
-        tic=time.time()
-        print(self.func1(*args, **kwargs))
-        toc=time.time()
-        print('func 1 time:%s ms'%(toc-tic))
-        tic = time.time()
-        print(self.func2(*args, **kwargs))
-        toc = time.time()
-        print('func 2 time:%s ms' % (toc - tic))
+        func_list=[i for i in self.__dir__() if 'func' in i]
+
+        for func in func_list:
+            tic=time.time()
+            print(getattr(self,func)(*args,**kwargs))
+            toc=time.time()
+            print('%s time:%s ms'%(func,toc-tic))
 
 if __name__ == '__main__':
     Solution().main()
